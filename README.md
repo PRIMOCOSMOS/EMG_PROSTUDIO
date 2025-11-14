@@ -307,6 +307,103 @@ manager = PluginManager()
 manager.register(MyCustomAnalysis())
 ```
 
+## 📊 Data Loading
+
+### CSV Files (Multi-Channel Support)
+
+Load multi-channel EMG data from CSV files:
+
+```python
+from emg_prostudio.utils import DataLoader
+
+# Load CSV with time column (auto-detect sampling rate)
+signal = DataLoader.load_csv(
+    'emg_data.csv',
+    time_column='Time',
+    channel_columns=['Biceps', 'Triceps', 'Forearm']
+)
+
+# Load CSV without time column (specify sampling rate)
+signal = DataLoader.load_csv(
+    'emg_data.csv',
+    sampling_rate=1000.0  # Hz
+)
+
+# Load CSV without header
+signal = DataLoader.load_csv(
+    'emg_data.csv',
+    sampling_rate=1000.0,
+    header=None  # No column names
+)
+```
+
+**Supported CSV formats:**
+- Files with/without headers
+- Time column for automatic sampling rate calculation
+- Multi-channel data in separate columns
+- Custom delimiters (comma, tab, etc.)
+- Selective channel loading
+
+See `examples/csv_loading_example.py` for complete examples.
+
+### Other Formats
+
+```python
+# NumPy
+signal = DataLoader.load_numpy('data.npz')
+
+# HDF5
+signal = DataLoader.load_hdf5('data.h5')
+
+# JSON
+signal = DataLoader.load_json('data.json')
+```
+
+## 🔌 Model Interface
+
+The plugin system provides easy integration points for inference models:
+
+```python
+from emg_prostudio.plugins import AnalysisPlugin
+
+class MyModelPlugin(AnalysisPlugin):
+    """Custom model inference plugin."""
+    
+    def __init__(self):
+        super().__init__("MyModel", "1.0.0")
+        # Load your model here
+        # self.model = load_model('path/to/model')
+    
+    def analyze(self, emg_signal, **kwargs):
+        """Run inference on EMG signal."""
+        # Preprocess if needed
+        # features = extract_features(emg_signal)
+        # predictions = self.model.predict(features)
+        
+        return {
+            'predictions': [],  # Your model outputs
+            'confidence': 0.95,
+            # Add any other results
+        }
+    
+    def get_info(self):
+        return {
+            'name': self.name,
+            'version': self.version,
+            'description': 'My custom model for EMG analysis',
+            'model_type': 'deep_learning',  # or 'traditional', 'hybrid'
+        }
+
+# Register and use
+from emg_prostudio.plugins import PluginManager
+manager = PluginManager()
+manager.register(MyModelPlugin())
+
+results = manager.analyze('MyModel', emg_signal)
+```
+
+The `AnalysisPlugin` base class provides a simple interface for integrating any model or analysis method.
+
 ## 📝 Requirements
 
 - Python 3.8+
@@ -331,6 +428,114 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## 📊 Loading Multi-Channel CSV Files
+
+EMG_PROSTUDIO has comprehensive support for loading multi-channel EMG data from CSV files:
+
+```python
+from emg_prostudio.utils import DataLoader
+
+# Load CSV with automatic sampling rate detection
+signal = DataLoader.load_csv(
+    'emg_data.csv',
+    time_column='Time',  # Auto-calculate sampling rate from time
+    channel_columns=['Biceps', 'Triceps', 'Forearm']  # Select specific channels
+)
+
+# Load CSV without time column (specify sampling rate)
+signal = DataLoader.load_csv(
+    'emg_data.csv',
+    sampling_rate=1000.0  # Specify sampling rate in Hz
+)
+
+# Load CSV without headers
+signal = DataLoader.load_csv(
+    'emg_data.csv',
+    sampling_rate=1000.0,
+    header=None  # Auto-generate channel names
+)
+```
+
+**Features:**
+- Automatic sampling rate calculation from time column
+- Multi-channel support (load all or specific channels)
+- Flexible format handling (with/without headers, custom delimiters)
+- Compatible with various CSV formats from EMG hardware
+
+**Example CSV formats supported:**
+```csv
+# Format 1: With time and named channels
+Time,Biceps,Triceps,Forearm
+0.000,0.123,0.234,0.345
+0.001,0.126,0.237,0.348
+...
+
+# Format 2: Without time column
+Biceps,Triceps,Forearm
+0.123,0.234,0.345
+0.126,0.237,0.348
+...
+
+# Format 3: No headers (numeric data only)
+0.123,0.234,0.345
+0.126,0.237,0.348
+...
+```
+
+See `examples/csv_loading_example.py` for complete working examples.
+
+## 🔌 Model Integration Interface
+
+The plugin system provides a clean interface for integrating custom models:
+
+```python
+from emg_prostudio.plugins import AnalysisPlugin
+
+class CustomModelPlugin(AnalysisPlugin):
+    """Plugin for your custom EMG analysis model."""
+    
+    def __init__(self):
+        super().__init__("CustomModel", "1.0.0")
+        # Initialize your model here
+        # self.model = load_your_model()
+    
+    def analyze(self, emg_signal, **kwargs):
+        """Run analysis/inference on EMG signal."""
+        # Your analysis code here
+        # results = self.model.predict(emg_signal.data)
+        
+        return {
+            'predictions': [],      # Your model outputs
+            'confidence': 0.95,     # Confidence scores
+            # Add any other results
+        }
+    
+    def get_info(self):
+        return {
+            'name': self.name,
+            'version': self.version,
+            'description': 'Custom model for EMG analysis',
+            'model_type': 'deep_learning'  # or 'traditional', 'hybrid'
+        }
+```
+
+**Using the plugin:**
+```python
+from emg_prostudio.plugins import PluginManager
+
+# Register your plugin
+manager = PluginManager()
+manager.register(CustomModelPlugin())
+
+# Run analysis
+results = manager.analyze('CustomModel', emg_signal)
+```
+
+The interface is designed to be:
+- **Simple**: Minimal code needed to integrate
+- **Flexible**: Works with any model architecture
+- **Extensible**: Easy to add new features
 
 ## 👥 Authors
 
