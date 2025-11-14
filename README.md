@@ -62,9 +62,25 @@ A comprehensive, extensible Python application for analyzing electromyography (E
 
 ## 🚀 Quick Start
 
-### Installation
+### VSCode Development (No Installation Required!)
 
-**IMPORTANT**: You must install dependencies before importing the package.
+**For VSCode users**: Simply open the project folder in VSCode with dependencies installed:
+
+```bash
+# 1. Clone and open in VSCode
+git clone https://github.com/PRIMOCOSMOS/EMG_PROSTUDIO.git
+code EMG_PROSTUDIO
+
+# 2. Install only dependencies (not the package itself)
+pip install -r requirements.txt
+# or for core only: pip install -r requirements-core.txt
+
+# 3. Start coding! Imports work immediately, no pip install -e . needed
+```
+
+The `.vscode/settings.json` automatically configures Python paths for development. See [.vscode/README.md](.vscode/README.md) for details.
+
+### Installation (For Non-VSCode or Production Use)
 
 #### Option 1: Full Installation (Recommended)
 ```bash

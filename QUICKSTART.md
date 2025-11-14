@@ -1,6 +1,28 @@
 # Quick Start Guide
 
-## Installation
+## For VSCode Users (Recommended for Development)
+
+**No package installation needed!** Just install dependencies:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/PRIMOCOSMOS/EMG_PROSTUDIO.git
+
+# 2. Open in VSCode
+code EMG_PROSTUDIO
+
+# 3. Install dependencies only
+pip install -r requirements.txt
+# or: pip install -r requirements-core.txt (core only)
+
+# 4. Start developing - imports work immediately!
+```
+
+The `.vscode/settings.json` configuration automatically adds the workspace folder to Python path, so all imports work without `pip install -e .`
+
+See [.vscode/README.md](.vscode/README.md) for more details on VSCode development setup.
+
+## For Other Editors or Production Use
 
 **⚠️ IMPORTANT**: You must install dependencies BEFORE you can import the package!
 
