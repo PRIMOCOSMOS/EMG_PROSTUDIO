@@ -64,19 +64,42 @@ A comprehensive, extensible Python application for analyzing electromyography (E
 
 ### Installation
 
+**IMPORTANT**: You must install dependencies before importing the package.
+
+#### Option 1: Full Installation (Recommended)
 ```bash
 # Clone the repository
 git clone https://github.com/PRIMOCOSMOS/EMG_PROSTUDIO.git
 cd EMG_PROSTUDIO
 
-# Install dependencies
-pip install -r requirements.txt
-
-# Optional: Install with deep learning support
-pip install -r requirements.txt torch torchvision
-
-# Install the package
+# Install the package with all dependencies
 pip install -e .
+```
+
+#### Option 2: Core Dependencies Only (No GUI)
+```bash
+# Clone the repository
+git clone https://github.com/PRIMOCOSMOS/EMG_PROSTUDIO.git
+cd EMG_PROSTUDIO
+
+# Install only core dependencies (for programmatic use)
+pip install -r requirements-core.txt
+```
+
+#### Option 3: All Dependencies Separately
+```bash
+# Clone the repository
+git clone https://github.com/PRIMOCOSMOS/EMG_PROSTUDIO.git
+cd EMG_PROSTUDIO
+
+# Install all dependencies including GUI support
+pip install -r requirements.txt
+```
+
+#### Optional: Deep Learning Support
+```bash
+# After installing core dependencies, add PyTorch
+pip install torch torchvision
 ```
 
 ### Running the Application
@@ -306,6 +329,47 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📧 Contact
 
 For questions or suggestions, please open an issue on GitHub.
+
+## ❓ Troubleshooting
+
+### Import Errors
+
+If you get errors like `ModuleNotFoundError: No module named 'numpy'` or `ModuleNotFoundError: No module named 'emg_prostudio'`:
+
+**Solution**: Install the package and its dependencies first:
+```bash
+cd EMG_PROSTUDIO
+pip install -e .
+```
+
+Or install dependencies manually:
+```bash
+pip install -r requirements.txt
+```
+
+### Specific Import Issues
+
+If specific imports fail:
+```python
+from emg_prostudio.core.signal import EMGSignal  # Requires: numpy, scipy
+from emg_prostudio.preprocessing.filters import EMGPreprocessor  # Requires: numpy, scipy
+from emg_prostudio.features.extractor import FeatureExtractor  # Requires: numpy, scipy
+from emg_prostudio.analysis.action_detector import ActionDetector  # Requires: numpy, scipy
+from emg_prostudio.analysis.fatigue_monitor import FatigueMonitor  # Requires: numpy, scipy
+from emg_prostudio.plugins import AnalysisPlugin  # No additional deps
+```
+
+**Minimal dependencies for core functionality**:
+```bash
+pip install numpy scipy pandas h5py
+```
+
+### GUI Not Starting
+
+If GUI doesn't start, ensure PyQt5 is installed:
+```bash
+pip install PyQt5 pyqtgraph
+```
 
 ---
 

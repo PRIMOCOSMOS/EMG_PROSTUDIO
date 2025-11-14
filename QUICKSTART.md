@@ -2,13 +2,58 @@
 
 ## Installation
 
+**⚠️ IMPORTANT**: You must install dependencies BEFORE you can import the package!
+
+### Quick Installation (Recommended)
+
+#### Using the Installation Script
+
+**Linux/Mac:**
+```bash
+git clone https://github.com/PRIMOCOSMOS/EMG_PROSTUDIO.git
+cd EMG_PROSTUDIO
+./install.sh
+```
+
+**Windows:**
+```cmd
+git clone https://github.com/PRIMOCOSMOS/EMG_PROSTUDIO.git
+cd EMG_PROSTUDIO
+install.bat
+```
+
+#### Manual Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/PRIMOCOSMOS/EMG_PROSTUDIO.git
+cd EMG_PROSTUDIO
+
+# 2. Install the package (this installs all dependencies automatically)
+pip install -e .
+```
+
+### Alternative: Manual Dependency Installation
+
+If you prefer to install dependencies separately:
+
 ```bash
 # Clone the repository
 git clone https://github.com/PRIMOCOSMOS/EMG_PROSTUDIO.git
 cd EMG_PROSTUDIO
 
-# Install dependencies
+# For core functionality only (no GUI):
+pip install -r requirements-core.txt
+
+# For full functionality including GUI:
 pip install -r requirements.txt
+```
+
+### Verify Installation
+
+After installation, verify imports work:
+```bash
+python -c "from emg_prostudio import EMGSignal; print('✓ Installation successful!')"
 ```
 
 ## First Steps
